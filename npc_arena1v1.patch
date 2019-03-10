@@ -1,0 +1,66 @@
+diff --git a/src/server/game/World/World.cpp b/src/server/game/World/World.cpp
+index c9bacd4057..99b5675eef 100644
+--- a/src/server/game/World/World.cpp
++++ b/src/server/game/World/World.cpp
+@@ -1181,6 +1181,13 @@ void World::LoadConfigSettings(bool reload)
+     m_float_configs[CONFIG_ARENA_LOSE_RATING_MODIFIER]               = sConfigMgr->GetFloatDefault("Arena.ArenaLoseRatingModifier", 24.0f);
+     m_float_configs[CONFIG_ARENA_MATCHMAKER_RATING_MODIFIER]         = sConfigMgr->GetFloatDefault("Arena.ArenaMatchmakerRatingModifier", 24.0f);
+ 
++    m_bool_configs[CONFIG_ARENA_1V1_ENABLE] = sConfigMgr->GetBoolDefault("Arena.1v1.Enable", true);
++    m_int_configs[CONFIG_ARENA_1V1_MIN_LEVEL] = sConfigMgr->GetIntDefault("Arena.1v1.MinLevel", 255);
++    m_int_configs[CONFIG_ARENA_1V1_COSTS] = sConfigMgr->GetIntDefault("Arena.1v1.Costs", 400000);
++    m_bool_configs[CONFIG_ARENA_1V1_VENDOR_RATING] = sConfigMgr->GetBoolDefault("Arena.1v1.VendorRating", false);
++    m_float_configs[CONFIG_ARENA_1V1_ARENAPOINTS_MULTI] = sConfigMgr->GetFloatDefault("Arena.1v1.ArenaPointsMulti", 0.64f);
++    m_bool_configs[CONFIG_ARENA_1V1_BLOCK_FORBIDDEN_TALENTS] = sConfigMgr->GetBoolDefault("Arena.1v1.BlockForbiddenTalents", true);
++
+     m_bool_configs[CONFIG_OFFHAND_CHECK_AT_SPELL_UNLEARN]            = sConfigMgr->GetBoolDefault("OffhandCheckAtSpellUnlearn", true);
+ 
+     m_int_configs[CONFIG_CREATURE_PICKPOCKET_REFILL] = sConfigMgr->GetIntDefault("Creature.PickPocketRefillDelay", 10 * MINUTE);
+diff --git a/src/server/game/World/World.h b/src/server/game/World/World.h
+index e2fd8478f1..a4bd879d9c 100644
+--- a/src/server/game/World/World.h
++++ b/src/server/game/World/World.h
+@@ -133,6 +133,9 @@ enum WorldBoolConfigs
+     CONFIG_ARENA_QUEUE_ANNOUNCER_ENABLE,
+     CONFIG_ARENA_SEASON_IN_PROGRESS,
+     CONFIG_ARENA_LOG_EXTENDED_INFO,
++    CONFIG_ARENA_1V1_ENABLE,
++    CONFIG_ARENA_1V1_VENDOR_RATING,
++    CONFIG_ARENA_1V1_BLOCK_FORBIDDEN_TALENTS,
+     CONFIG_OFFHAND_CHECK_AT_SPELL_UNLEARN,
+     CONFIG_VMAP_INDOOR_CHECK,
+     CONFIG_START_ALL_SPELLS,
+@@ -189,6 +192,7 @@ enum WorldFloatConfigs
+     CONFIG_SIGHT_MONSTER,
+     CONFIG_LISTEN_RANGE_SAY,
+     CONFIG_LISTEN_RANGE_TEXTEMOTE,
++    CONFIG_ARENA_1V1_ARENAPOINTS_MULTI,
+     CONFIG_LISTEN_RANGE_YELL,
+     CONFIG_CREATURE_FAMILY_FLEE_ASSISTANCE_RADIUS,
+     CONFIG_CREATURE_FAMILY_ASSISTANCE_RADIUS,
+@@ -319,6 +323,8 @@ enum WorldIntConfigs
+     CONFIG_ARENA_START_RATING,
+     CONFIG_ARENA_START_PERSONAL_RATING,
+     CONFIG_ARENA_START_MATCHMAKER_RATING,
++    CONFIG_ARENA_1V1_MIN_LEVEL,
++    CONFIG_ARENA_1V1_COSTS,
+     CONFIG_MAX_WHO,
+     CONFIG_HONOR_AFTER_DUEL,
+     CONFIG_PVP_TOKEN_MAP_TYPE,
+diff --git a/src/server/scripts/Custom/custom_script_loader.cpp b/src/server/scripts/Custom/custom_script_loader.cpp
+index 17b8844148..819014e0db 100644
+--- a/src/server/scripts/Custom/custom_script_loader.cpp
++++ b/src/server/scripts/Custom/custom_script_loader.cpp
+@@ -16,10 +16,11 @@
+  */
+ 
+ // This is where scripts' loading functions should be declared:
+-
++void AddSC_npc_1v1arena();
+ 
+ // The name of this function should match:
+ // void Add${NameOfDirectory}Scripts()
+ void AddCustomScripts()
+ {
++	AddSC_npc_1v1arena();
+ }
