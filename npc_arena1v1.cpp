@@ -320,12 +320,12 @@ class npc_arena1v1_world : public WorldScript
         {
             if (reload) // if gm is using .reload config command // or using .reload config on worldserver console
             {
-                Mindsear();
+                MindsearIsMyHero();
                 TC_LOG_INFO("server.loading", "============   Re-Loaded Mod Arena 1v1...  ========================");
             }
             else // On worldserver Startup
             {
-                Mindsear();
+                MindsearIsMyHero();
                 TC_LOG_INFO("server.loading", "============   Loaded Mod Arena 1v1...  ===========================");
             }
         }
