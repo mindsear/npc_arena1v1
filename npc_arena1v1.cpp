@@ -15,6 +15,7 @@
 #include "ScriptedGossip.h"
 #include "ScriptedCreature.h"
 #include "CreatureAI.h"
+#include "Config.h"
 
 class npc_1v1arena : public CreatureScript
 {
@@ -30,7 +31,7 @@ public:
             if (!player || !me)
                 return false;
 
-            if (sWorld->getIntConfig(CONFIG_ARENA_1V1_MIN_LEVEL) > player->getLevel())
+            if (config_minLevel > player->getLevel())
                 return false;
 
             ObjectGuid guid = player->GetGUID();
@@ -111,7 +112,6 @@ public:
             return true;
         }
 
-
         bool CreateArenateam(Player* player, Creature* me)
         {
             if (!player || !me)
@@ -158,7 +158,7 @@ public:
             sArenaTeamMgr->AddArenaTeam(arenaTeam);
             arenaTeam->AddMember(player->GetGUID());
 
-            ChatHandler(player->GetSession()).SendSysMessage("1v1 Arenateam successfully created!");
+            ChatHandler(player->GetSession()).SendSysMessage("|cffFF4500[1v1 Arena System]:|r Arenateam successfully created!");
 
             return true;
         }
@@ -168,9 +168,9 @@ public:
             if (!player || !me)
                 return true;
 
-            if (sWorld->getBoolConfig(CONFIG_ARENA_1V1_ENABLE) == false)
+            if (config_Enable == false)
             {
-                ChatHandler(player->GetSession()).SendSysMessage("1v1 disabled!");
+                ChatHandler(player->GetSession()).SendSysMessage("|cffFF4500[1v1 Arena System]:|r 1v1 Arena is disabled!");
                 return true;
             }
 
@@ -180,7 +180,7 @@ public:
                 AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Sign up 1v1 Arena (unrated)", GOSSIP_SENDER_MAIN, 20);
 
             if (player->GetArenaTeamId(ArenaTeam::GetSlotByType(ARENA_TEAM_5v5)) == 0)
-                AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Create new 1v1 Arenateam", GOSSIP_SENDER_MAIN, 1, "Create 1v1 arenateam?", sWorld->getIntConfig(CONFIG_ARENA_1V1_COSTS), false);
+                AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Create new 1v1 Arenateam", GOSSIP_SENDER_MAIN, 1, "Create 1v1 arenateam?", config_Costs, false);
             else
             {
                 if (player->InBattlegroundQueueForBattlegroundQueueType(BATTLEGROUND_QUEUE_5v5) == false)
@@ -212,14 +212,14 @@ public:
             {
             case 1: // Create new Arenateam
             {
-                if (sWorld->getIntConfig(CONFIG_ARENA_1V1_MIN_LEVEL) <= player->getLevel())
+                if (config_minLevel <= player->getLevel())
                 {
-                    if (player->GetMoney() >= sWorld->getIntConfig(CONFIG_ARENA_1V1_COSTS) && CreateArenateam(player, me))
-                        player->ModifyMoney(sWorld->getIntConfig(CONFIG_ARENA_1V1_COSTS) * -1);
+                    if (player->GetMoney() >= config_Costs && CreateArenateam(player, me))
+                        player->ModifyMoney(config_Costs * -1);
                 }
                 else
                 {
-                    ChatHandler(player->GetSession()).PSendSysMessage("You need level %u to create a 1v1 arenateam.", sWorld->getIntConfig(CONFIG_ARENA_1V1_MIN_LEVEL));
+                    ChatHandler(player->GetSession()).PSendSysMessage("|cffFF4500[1v1 Arena System]:|r You need level %u to create a 1v1 arenateam.", config_minLevel);
                     CloseGossipMenuFor(player);
                     return true;
                 }
@@ -229,7 +229,7 @@ public:
             case 2: // Join Queue Arena (rated)
             {
                 if (Arena1v1CheckTalents(player) && JoinQueueArena(player, me, true) == false)
-                    ChatHandler(player->GetSession()).SendSysMessage("Something went wrong while join queue.");
+                    ChatHandler(player->GetSession()).SendSysMessage("|cffFF4500[1v1 Arena System]:|r Something went wrong while join queue.");
 
                 CloseGossipMenuFor(player);
                 return true;
@@ -239,7 +239,7 @@ public:
             case 20: // Join Queue Arena (unrated)
             {
                 if (Arena1v1CheckTalents(player) && JoinQueueArena(player, me, false) == false)
-                    ChatHandler(player->GetSession()).SendSysMessage("Something went wrong while join queue.");
+                    ChatHandler(player->GetSession()).SendSysMessage("|cffFF4500[1v1 Arena System]:|r Something went wrong while join queue.");
 
                 CloseGossipMenuFor(player);
                 return true;
@@ -262,7 +262,8 @@ public:
                 if (at)
                 {
                     std::stringstream s;
-                    s << "Rating: " << at->GetStats().Rating;
+                    s << "|cffFF4500[1v1 Arena System]:|r Your statistics ";
+                    s << "\nRating: " << at->GetStats().Rating;
                     s << "\nRank: " << at->GetStats().Rank;
                     s << "\nSeason Games: " << at->GetStats().SeasonGames;
                     s << "\nSeason Wins: " << at->GetStats().SeasonWins;
@@ -280,7 +281,7 @@ public:
                 WorldPacket Data;
                 Data << (uint32)player->GetArenaTeamId(ArenaTeam::GetSlotByType(ARENA_TEAM_5v5));
                 player->GetSession()->HandleArenaTeamLeaveOpcode(Data);
-                ChatHandler(player->GetSession()).SendSysMessage("Arenateam deleted!");
+                ChatHandler(player->GetSession()).SendSysMessage("|cffFF4500[1v1 Arena System]:|r Arenateam deleted!");
                 CloseGossipMenuFor(player);
                 return true;
             }
@@ -298,7 +299,7 @@ public:
             break;
 
             }
-
+            
             GossipHello(player);
             return true;
         }
@@ -310,8 +311,40 @@ public:
     }
 };
 
+class npc_arena1v1_world : public WorldScript
+{
+    public:
+        npc_arena1v1_world() : WorldScript("npc_arena1v1_world") {}
+
+        void Mindsear()
+        {
+            config_Enable = sConfigMgr->GetBoolDefault("Arena.1v1.Enable", true);
+            config_minLevel = sConfigMgr->GetIntDefault("Arena.1v1.MinLevel", 255);
+            config_Costs = sConfigMgr->GetIntDefault("Arena.1v1.Costs", 400000);
+            /*config_VendorRating = sConfigMgr->GetBoolDefault("Arena.1v1.VendorRating", false);
+            config_ArenaPointsMulti = sConfigMgr->GetFloatDefault("Arena.1v1.ArenaPointsMulti", 0.64f);
+            config_BlockForbiddenTalents = sConfigMgr->GetBoolDefault("Arena.1v1.BlockForbiddenTalents", true);*/
+            //TC_LOG_INFO("server.loading", "============   Loaded Mod Arena 1v1...  ===========================");
+        }
+
+        void OnConfigLoad(bool reload) override
+        {
+            if (reload) // if gm is using .reload config command // or using .reload config on worldserver console
+            {
+                Mindsear();
+                TC_LOG_INFO("server.loading", "============   Re-Loaded Mod Arena 1v1...  ========================");
+            }
+            else // On worldserver Startup
+            {
+                Mindsear();
+                TC_LOG_INFO("server.loading", "============   Loaded Mod Arena 1v1...  ===========================");
+            }
+        }
+};
+
 
 void AddSC_npc_1v1arena()
 {
     new npc_1v1arena();
+    new npc_arena1v1_world();
 }
