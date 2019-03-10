@@ -47,7 +47,7 @@ static bool Arena1v1CheckTalents(Player* player)
 	if (!player)
 		return false;
 
-	if (sWorld->getBoolConfig(CONFIG_ARENA_1V1_BLOCK_FORBIDDEN_TALENTS) == false)
+	if (config_BlockForbiddenTalents == false)
 		return true;
 
 	uint32 count = 0;
@@ -74,7 +74,7 @@ static bool Arena1v1CheckTalents(Player* player)
 
 	if (count >= 36)
 	{
-		ChatHandler(player->GetSession()).SendSysMessage("You can't join, because you have invested to much points in a forbidden talent. Please edit your talents.");
+		ChatHandler(player->GetSession()).SendSysMessage("You can't join, because you have invested too many points in a forbidden talent. Please edit your talents.");
 		return false;
 	}
 	else
