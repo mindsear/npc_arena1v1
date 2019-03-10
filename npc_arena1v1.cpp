@@ -219,7 +219,7 @@ public:
                 }
                 else
                 {
-                    ChatHandler(player->GetSession()).PSendSysMessage("You need level %u+ to create an 1v1 arenateam.", sWorld->getIntConfig(CONFIG_ARENA_1V1_MIN_LEVEL));
+                    ChatHandler(player->GetSession()).PSendSysMessage("You need level %u to create a 1v1 arenateam.", sWorld->getIntConfig(CONFIG_ARENA_1V1_MIN_LEVEL));
                     CloseGossipMenuFor(player);
                     return true;
                 }
