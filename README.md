@@ -3,7 +3,7 @@
     
 Original Mod written by Quadral can be found here: https://github.com/Quadral/335source/tree/master/src/server/scripts/Custom/1V1
 
-**UPDATE:** Tested in-game and seems to be working for me.  
+**UPDATE:** Tested in-game and seems to be working for me. Reload config command is working as well.  
   
   
 You must add the following at the end of your **worldserver.conf** file  
