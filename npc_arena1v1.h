@@ -13,7 +13,7 @@ bool config_VendorRating;
 float config_ArenaPointsMulti;
 bool config_BlockForbiddenTalents;
 
-void Mindsear()
+void MindsearIsMyHero()
 {
 	config_Enable = sConfigMgr->GetBoolDefault("Arena.1v1.Enable", true);
 	config_minLevel = sConfigMgr->GetIntDefault("Arena.1v1.MinLevel", 255);
