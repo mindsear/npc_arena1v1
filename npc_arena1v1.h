@@ -6,6 +6,23 @@
 #ifndef ARENA_1V1_H
 #define ARENA_1V1_H
 
+bool config_Enable;
+uint8 config_minLevel;
+uint32 config_Costs;
+bool config_VendorRating;
+float config_ArenaPointsMulti;
+bool config_BlockForbiddenTalents;
+
+void Mindsear()
+{
+	config_Enable = sConfigMgr->GetBoolDefault("Arena.1v1.Enable", true);
+	config_minLevel = sConfigMgr->GetIntDefault("Arena.1v1.MinLevel", 255);
+	config_Costs = sConfigMgr->GetIntDefault("Arena.1v1.Costs", 400000);
+	/*config_VendorRating = sConfigMgr->GetBoolDefault("Arena.1v1.VendorRating", false);
+	config_ArenaPointsMulti = sConfigMgr->GetFloatDefault("Arena.1v1.ArenaPointsMulti", 0.64f);
+	config_BlockForbiddenTalents = sConfigMgr->GetBoolDefault("Arena.1v1.BlockForbiddenTalents", true);*/
+}
+
 // TalentTab.dbc -> TalentTabID
 const uint32 FORBIDDEN_TALENTS_IN_1V1_ARENA[] =
 {
