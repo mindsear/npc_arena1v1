@@ -1,6 +1,7 @@
 // quadral
 #include "World.h"
 #include "DBCStores.h" 
+#include "Chat.h"
 
 #ifndef ARENA_1V1_H
 #define ARENA_1V1_H
