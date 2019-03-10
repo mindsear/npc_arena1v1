@@ -158,7 +158,7 @@ public:
             sArenaTeamMgr->AddArenaTeam(arenaTeam);
             arenaTeam->AddMember(player->GetGUID());
 
-            ChatHandler(player->GetSession()).SendSysMessage("1v1 Arenateam successful created!");
+            ChatHandler(player->GetSession()).SendSysMessage("1v1 Arenateam successfully created!");
 
             return true;
         }
