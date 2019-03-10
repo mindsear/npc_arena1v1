@@ -64,3 +64,38 @@ index 17b8844148..819014e0db 100644
  {
 +	AddSC_npc_1v1arena();
  }
+diff --git a/src/server/worldserver/worldserver.conf.dist b/src/server/worldserver/worldserver.conf.dist
+index eb31fc4da9..651ba5c015 100644
+--- a/src/server/worldserver/worldserver.conf.dist
++++ b/src/server/worldserver/worldserver.conf.dist
+@@ -4017,3 +4017,30 @@ Metric.OverallStatusInterval = 1
+ 
+ #
+ ###################################################################################################
++###################################################################################################
++#  1v1
++#        Arena.1v1.Enable
++#	     Description: Defines is the world chat enabled or disabled, default : Enabled
++#		 Usage: 0 = Disabled, 1 = Enabled
++#
++Arena.1v1.Enable = 1
++#
++#
++#
++#  1v1
++#        Arena.1v1.Enable
++#	     Description: Gives value cost; 400000 is 40g
++#		 Usage: 0-400000 // 400k is 40g
++#
++Arena.1v1.Costs = 400000
++#
++#
++#  1v1
++#        Arena.1v1.MinLevel
++#	     Description: Change player level requirement to join 1v1 arena
++#		 Usage: 1-255
++#
++Arena.1v1.MinLevel = 80
++#
++#
++###################################################################################################
