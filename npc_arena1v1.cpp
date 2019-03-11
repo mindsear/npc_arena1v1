@@ -16,6 +16,17 @@
 #include "ScriptedCreature.h"
 #include "CreatureAI.h"
 #include "Config.h"
+//#include "DatabaseEnv.h"
+
+/*
+// NPC DETAILS - WORLD DATABASE
+uint64 NPC_Entry = 190001;
+uint32 NPC_DisplayID = 21249;
+std::string NPC_Name = "Arena 1v1";
+std::string NPC_SubName = "";
+uint8 NPC_MinLevel = 80;
+uint8 NPC_MaxLevel = 80;
+*/
 
 class npc_1v1arena : public CreatureScript
 {
@@ -327,6 +338,12 @@ class npc_arena1v1_world : public WorldScript
             {
                 MindsearIsMyHero();
                 TC_LOG_INFO("server.loading", "============   Loaded Mod Arena 1v1...  ===========================");
+                /*
+                WorldDatabase.PExecute("INSERT IGNORE INTO `creature_template` (`entry`, `modelid1`, `name`, `subname`, `IconName`, `minlevel`, "
+                    "`maxlevel`, `exp`, `faction`, `npcflag`, `scale`, `baseattacktime`, `unit_class`, `type`, `type_flags`, `HoverHeight`, "
+                    "`RegenHealth`, `ScriptName`) VALUES (%u, %u, '%s', '%s', 'Speak', %u, %u, 2, 35, 3, 1, 2000, 1, 7, "
+                    "138936390, 1, 1, 'npc_1v1arena');", NPC_Entry, NPC_DisplayID, NPC_Name, NPC_SubName, NPC_MinLevel, NPC_MaxLevel);
+                    */
             }
         }
 };
