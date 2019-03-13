@@ -5,8 +5,21 @@ Original Mod written by Quadral can be found here: https://github.com/Quadral/33
 
 **UPDATE:** Tested in-game and seems to be working for me. Reload config command is working as well.  
   
-  
-You must add the following at the end of your **worldserver.conf** file  
+## How to install
+
+**1.** Navigate to your **TrinityCore\src\server\scripts\Custom** and make a new folder called **Arena1v1**.
+Copy **npc_arena1v1.cpp** and **npc_arena1v1.h** to your **Arena1v1** folder you just created. (this is optional but I recommend it just to keep things organized)
+
+**2.** Add 1v1 arena script to TrinityCore\src\server\scripts\Custom\ **custom_script_loader.cpp**
+
+![alt tag](https://i.ibb.co/FbwBphy/custom-script-loader.png)
+
+**3.** Use CMake (configure and generate)
+
+**4.** Open **TrinityCore.sln** and Build the solution. Click on **Build** and then **Build Solution** or press (Ctrl+Shift+B)
+
+**4.** Add the following at the end of your **worldserver.conf** file  
+
 ```cpp
 ###################################################################################################
 #  1v1
@@ -36,8 +49,7 @@ Arena.1v1.MinLevel = 80
 #
 ###################################################################################################
 ```
-  
-Also, don't forget to add it to **custom_script_loader.cpp**  
-  
-![alt tag](https://i.ibb.co/FbwBphy/custom-script-loader.png)
+
+**6.** Execute **create_npc_world_database.sql** to your database.
+ 
 
