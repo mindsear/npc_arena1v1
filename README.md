@@ -18,7 +18,7 @@ Copy **npc_arena1v1.cpp** and **npc_arena1v1.h** to your **Arena1v1** folder you
 
 **4.** Open **TrinityCore.sln** and Build the solution. Click on **Build** and then **Build Solution** or press (Ctrl+Shift+B)
 
-**4.** Add the following at the end of your **worldserver.conf** file  
+**5.** Add the following at the end of your **worldserver.conf** file  
 
 ```cpp
 ###################################################################################################
