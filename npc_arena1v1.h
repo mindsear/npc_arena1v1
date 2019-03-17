@@ -1,7 +1,22 @@
 // quadral
-#include "World.h"
 #include "DBCStores.h" 
+#include "ScriptMgr.h"
+#include "ArenaTeamMgr.h"
+#include "Common.h"
+#include "DisableMgr.h"
+#include "BattlegroundMgr.h"
+#include "Battleground.h"
+#include "ArenaTeam.h"
+#include "Language.h"
+#include "World.h"
+#include "Player.h"
 #include "Chat.h"
+#include "WorldSession.h"
+#include "Log.h"
+#include "ScriptedGossip.h"
+#include "ScriptedCreature.h"
+#include "CreatureAI.h"
+#include "Config.h"
 
 #ifndef ARENA_1V1_H
 #define ARENA_1V1_H
