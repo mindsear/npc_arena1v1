@@ -12,11 +12,13 @@ Copy **npc_arena1v1.cpp** and **npc_arena1v1.h** to your **Arena1v1** folder you
 
 **2.** Add 1v1 arena script to TrinityCore\src\server\scripts\Custom\ **custom_script_loader.cpp**
 
-![alt tag](https://i.ibb.co/FbwBphy/custom-script-loader.png)
+![alt tag](https://i.imgur.com/zHKZ2nC.png)
 
 **3.** Use CMake (configure and generate)
 
 **4.** Open **TrinityCore.sln** and Build the solution. Click on **Build** and then **Build Solution** or press (Ctrl+Shift+B)
+
+![alt_tag](https://i.imgur.com/kNRA3Au.png)
 
 **5.** Add the following at the end of your **worldserver.conf** file  
 
